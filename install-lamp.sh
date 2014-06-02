@@ -4,15 +4,21 @@
 if [ ! -f /etc/apache2/apache2.conf ];
 then
 	# Install MySQL
-	echo 'mysql-server-5.1 mysql-server/root_password password vagrant' | debconf-set-selections
-	echo 'mysql-server-5.1 mysql-server/root_password_again password vagrant' | debconf-set-selections
-	apt-get -y install mysql-client mysql-server-5.1
+	echo 'mysql-server mysql-server/root_password password vagrant' | debconf-set-selections
+	echo 'mysql-server mysql-server/root_password_again password vagrant' | debconf-set-selections
+	apt-get -y install mysql-client mysql-server
 
 	# Install Apache2
 	apt-get -y install apache2
+	
+	# Install CURL dev package
+	apt-get -y install libcurl4-openssl-dev
 
 	# Install PHP5 support
-	apt-get -y install php5 libapache2-mod-php5 php-apc php5-mysql php5-dev
+	apt-get -y install php5 libapache2-mod-php5 php-apc php5-mysql php5-dev php5-curl
+
+	# install vim
+	apt-get -y install vim
 
 	# Install SSL tools
 	#apt-get -y install ssl-cert
@@ -20,26 +26,13 @@ then
 	# Install OpenSSL
 	apt-get -y install openssl
 
-	# Install PHP pear
-	apt-get -y install php-pear
-
-	# Install sendmail
-	apt-get -y install sendmail
-
-	# Install CURL dev package
-	apt-get -y install libcurl4-openssl-dev
-
-	# Install PECL HTTP (depends on php-pear, php5-dev, libcurl4-openssl-dev)
-	printf "\n" | pecl install pecl_http
-
-	# Enable PECL HTTP
-	echo "extension=http.so" > /etc/php5/conf.d/http.ini
-
 	# Enable mod_rewrite	
 	a2enmod rewrite
 
 	# Enable SSL
 	a2enmod ssl
+	
+	a2dissite default
 
 	# Add www-data to vagrant group
 	usermod -a -G vagrant www-data
