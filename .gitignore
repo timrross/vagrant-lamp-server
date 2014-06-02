@@ -1,3 +1,4 @@
 # Ignore temp gedit files
 *.*~
 .project
+.vagrant/
