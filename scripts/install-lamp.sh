@@ -17,15 +17,6 @@ then
 	# Install PHP5 support
 	apt-get -y install php5 libapache2-mod-php5 php-apc php5-mysql php5-dev php5-curl
 
-	# install vim
-	apt-get -y install vim
-
-	# Install SSL tools
-	#apt-get -y install ssl-cert
-
-	# Install OpenSSL
-	apt-get -y install openssl
-
 	# Enable mod_rewrite	
 	a2enmod rewrite
 
