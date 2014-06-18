@@ -7,6 +7,10 @@ sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list
 apt-get update
 apt-get -y install jenkins
 
+apt-get -y install php5-cli
+
+apt-get -y install git
+
 # Install composer and add it to the system path
 curl -sS https://getcomposer.org/installer | php 
 mv composer.phar /usr/local/bin/composer
