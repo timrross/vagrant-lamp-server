@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder "../", "/mnt/workspace"
   
   config.vm.provider "virtualbox" do |vb|
-	vb.gui = true
+	#vb.gui = true
   	vb.name = "sandbox"
     vb.memory = "512"
   end
