@@ -1,9 +1,9 @@
-# Vagrant debian shell
+# Vagrant LAMP server 
 
 This is a collection of shell scripts I am using setting up a LAMP vagrant box 
-with debian squeeze.
+with ubuntu 14.04 (LTS)
 
-Squeeze can be obtained @ <http://www.vagrantbox.es/>
+The box is automatically downloaded from <https://vagrantcloud.com/ubuntu/boxes/trusty64>
 
 ## Shell files
 
@@ -11,10 +11,15 @@ Squeeze can be obtained @ <http://www.vagrantbox.es/>
 
 Updates apt with the file within `etc/apt/sources.list`.
 
+### install-essential.sh
+
+Installs build-essential, vim, openssl, curl
+
 ### install-lamp.sh
 
-Installs apache2, php5, mysql-server, mysql-client, openssl,
-php-pear, pecl_http, sendmail, mod_rewrite, ssl.
+Installs apache2, php5, mysql-server, mysql-client, openssl, mod_rewrite, ssl.
+
+disables the default apache site and adds vagrant to the www-data group
 
 ### install-nfs.sh
 
@@ -24,21 +29,9 @@ Installs the nfs client. Required when using the vagrant NFS setting.
 
 Installs phpmyadmin with pre-answers questions.
 
-### install-wkhtmltopdf.sh
+### install-jenkins.sh
 
-Sets up wkhtmltopdf. The binary should be placed in 
-`opt/wkhtmltopdf/wkhtmltopdf`
-
-<http://code.google.com/p/wkhtmltopdf/>	
-
-### install-sphinx.sh
-
-Installs sphinx(search) with a custom configuration file 
-`etc/sphinxsearch/sphinx.conf`. Make sure you edit this file.
-
-Will also copy an updated `etc/default/sphinxsearch` file so sphinx will 
-automatically start on booting the box.
-
+Installs Jenkins CI, php5-cli, git, composer and phing
 
 ### cleanup.sh
 
@@ -47,5 +40,11 @@ Cleans up downloaded packages.
 ## Example vagrantfile
 
     Vagrant::Config.run do |config|
-        config.vm.provision :shell, :inline => "sh /vagrant/update-package-manager.sh; sh /vagrant/install-nfs.sh; sh /vagrant/install-lamp.sh; sh /vagrant/install-phpmyadmin.sh; sh /vagrant/install-wkhtmltopdf.sh; sh /vagrant/install-sphinx.sh; sh /vagrant/cleanup.sh;"
+      config.vm.box = "ubuntu/trusty64"
+
+      config.vm.provision :shell, path: "scripts/update-package-manager.sh"
+      config.vm.provision :shell, path: "scripts/install-essential.sh"
+      config.vm.provision :shell, path: "scripts/install-lamp.sh"
+      config.vm.provision :shell, path: "scripts/install-phpmyadmin.sh"
+      config.vm.provision :shell, path: "scripts/cleanup.sh"
     end
