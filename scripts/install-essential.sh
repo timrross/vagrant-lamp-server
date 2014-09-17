@@ -3,6 +3,9 @@
 # install build-essential
 apt-get -y install build-essential
 
+# install en locale
+apt-get -y install language-pack-en
+
 # install vim
 apt-get -y install vim
 
